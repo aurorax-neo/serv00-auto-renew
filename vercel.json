@@ -1,7 +1,7 @@
 {
   "crons": [{
     "path": "/api/ssh-connect",
-    "schedule": "0 /5 * * * *"
+    "schedule": "0 * * * *"
   }],
   "functions": {
     "api/ssh-connect.js": {
