@@ -1,5 +1,4 @@
-import { Client } from 'ssh2';
-import fetch from 'node-fetch';
+import {Client} from 'ssh2';
 
 const USERNAME = process.env.BASIC_AUTH_USERNAME;
 const PASSWORD = process.env.BASIC_AUTH_PASSWORD;
@@ -41,10 +40,10 @@ async function handleRequest(req, res) {
   let index = 1;
   while (process.env[`HOST${index}`]) {
     accounts.push({
-      host: process.env[`HOST${index}`],
-      username: process.env[`USERNAME${index}`],
-      password: process.env[`PASSWORD${index}`],
-      bark: process.env[`BARK${index}`],
+        host: process.env[`HOST${index}`],
+        username: process.env[`USERNAME${index}`],
+        password: process.env[`PASSWORD${index}`],
+        cmd: process.env[`CMD${index}`],
     });
     index++;
   }
@@ -64,7 +63,7 @@ async function handleRequest(req, res) {
 }
 
 async function sshConnect(account) {
-  const { host, username, password, bark } = account;
+    const {host, username, password, cmd} = account;
 
   const conn = new Client();
 
@@ -72,20 +71,23 @@ async function sshConnect(account) {
     conn.on('ready', async () => {
       console.log(`SSH 连接成功: ${username}@${host}`);
 
-      if (bark) {
-        const url = `https://api.day.app/${bark}/账号 ${username} SSH  连接成功?group=Serv00 自动登录&sound=silence`;
-        await fetch(url);
-      }
+        conn.exec(cmd, (err, stream) => {
+            if (err) {
+                console.error(`执行命令失败: ${cmd}`);
+                reject(err);
+                return;
+            }
+            stream.on('close', () => {
+                conn.end();
+            }).on('data', (data) => {
+                console.log(`STDOUT: ${data}`);
+            });
 
-      conn.end();
-      resolve();
+        })
+        conn.end();
+        resolve();
     }).on('error', async (err) => {
       console.error(`SSH 连接失败: ${err}`);
-
-      if (bark) {
-        const url = `https://api.day.app/${bark}/账号 ${username} SSH 连接失败，请检查账号和密码是否正确?group=Serv00 自动登录&sound=silence`;
-        await fetch(url);
-      }
 
       reject(err);
     }).on('keyboard-interactive', (name, instructions, instructionsLang, prompts, finish) => {
