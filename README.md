@@ -20,14 +20,14 @@
 
 ## 环境变量
 
-| 变量名              | 内容                                            |
-| ------------------- | ----------------------------------------------- |
-| BASIC_AUTH_USERNAME | HTTP 基本认证用户名                             |
-| BASIC_AUTH_PASSWORD | HTTP 基本认证密码                               |
-| CRON_SECRET         | Vercel 进行 Cron Jobs 时所用密码                |
-| HOSTx               | 例如 `HOST1`，可配置多个，为 SSH 连接地址       |
+| 变量名                 | 内容                               |
+|---------------------|----------------------------------|
+| BASIC_AUTH_USERNAME | HTTP 基本认证用户名                     |
+| BASIC_AUTH_PASSWORD | HTTP 基本认证密码                      |
+| CRON_SECRET         | Vercel 进行 Cron Jobs 时所用密码        |
+| HOSTx               | 例如 `HOST1`，可配置多个，为 SSH 连接地址      |
 | USERNAMEx           | 例如 `USERNAME1`，可配置多个，为 SSH 连接用户名 |
-| PASSWORDx           | 例如 `PASSWORD1`，可配置多个，为 SSH 连接密码   |
-| BARKx（可选）       | 例如 `BARK1`，可配置多个，为 BARK 密钥          |
+| PASSWORDx           | 例如 `PASSWORD1`，可配置多个，为 SSH 连接密码  |
+| CMDx（可选）            | 例如 `CMD1`，可配置多个，为 SSH 保活时的命令         |
 
 注意可配置多个的环境变量需配套使用。
