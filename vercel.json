@@ -1,8 +1,4 @@
 {
-  "crons": [{
-    "path": "/api/ssh-connect",
-    "schedule": "0 * * * *"
-  }],
   "functions": {
     "api/ssh-connect.js": {
       "maxDuration": 30
